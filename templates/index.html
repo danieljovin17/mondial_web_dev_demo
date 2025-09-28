@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <!-- Header Section -->
@@ -12,10 +13,11 @@
         <div class="container">
             <nav class="navbar">
                 <div class="brand">
-                    <h1>FastAPI Boilerplate</h1>
+                    <h1><a href="/" style="color: white; text-decoration: none;">FastAPI Boilerplate</a></h1>
                 </div>
                 <ul class="nav-links">
                     <li><a href="/">Home</a></li>
+                    <li><a href="/profile/demo">Demo Profile</a></li>
                     <li><a href="/health">Health</a></li>
                     <li><a href="/docs">API Docs</a></li>
                 </ul>
@@ -26,6 +28,7 @@
     <!-- Main Body Section -->
     <main class="main-content">
         <div class="container">
+            {% block content %}
             <section class="hero">
                 <h2>Welcome to FastAPI with Jinja2</h2>
                 <p class="lead">A modern, fast web framework for building APIs with Python 3.8+ based on standard Python type hints.</p>
@@ -57,12 +60,14 @@
                     <li>Health check endpoint</li>
                 </ul>
             </section>
+            {% endblock %}
         </div>
     </main>
 
     <!-- Footer Section -->
     <footer class="footer">
         <div class="container">
+            {% block footer_content %}
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>FastAPI Boilerplate</h4>
@@ -85,10 +90,12 @@
                     </ul>
                 </div>
             </div>
+            {% endblock %}
             <div class="footer-bottom">
-                <p>&copy; 2025 FastAPI Boilerplate. Built with ❤️ and Python.</p>
+                <p>&copy; 2025 FastAPI Boilerplate. {% block footer_text %}Built with ❤️ and Python.{% endblock %}</p>
             </div>
         </div>
     </footer>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

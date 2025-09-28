@@ -1,0 +1,253 @@
+{% extends "index.html" %}
+
+{% block title %}{{ user.full_name }} - Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+    }
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        margin: 0 auto 1rem;
+    }
+    .verified-badge {
+        display: inline-block;
+        background: #28a745;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+    }
+    .profile-content {
+        padding: 2rem;
+    }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .stat {
+        text-align: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 1rem 0;
+    }
+    .skill-tag {
+        background: #667eea;
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+    .posts {
+        margin-top: 2rem;
+    }
+    .post {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .post-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    .post-meta {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    .empty-state {
+        text-align: center;
+        color: #6c757d;
+        padding: 2rem;
+    }
+    .template-demo {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-top: 2rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {{ user.full_name[0]|upper }}
+        </div>
+        <h1>
+            {{ user.full_name }}
+            {% if user.is_verified %}
+                <span class="verified-badge">✓ Verified</span>
+            {% endif %}
+        </h1>
+        <p>@{{ user.username }}</p>
+        <p>{{ user.email }}</p>
+        <p>Member since {{ user.joined_date }}</p>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+        <!-- Bio Section -->
+        <section>
+            <h3>About</h3>
+            <p>{{ user.bio }}</p>
+        </section>
+
+        <!-- Stats Section -->
+        <section>
+            <h3>Stats</h3>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">{{ user.posts_count }}</div>
+                    <div>Posts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">{{ user.followers }}</div>
+                    <div>Followers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">{{ user.following }}</div>
+                    <div>Following</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section>
+            <h3>Skills ({{ user.skills|length }} total)</h3>
+            <div class="skills">
+                {% for skill in user.skills %}
+                    <span class="skill-tag">{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Recent Posts Section -->
+        <section class="posts">
+            <h3>Recent Posts</h3>
+            {% if user.recent_posts %}
+                {% for post in user.recent_posts %}
+                    <div class="post">
+                        <div class="post-title">{{ post.title }}</div>
+                        <div class="post-meta">
+                            Posted on {{ post.date }} • {{ post.likes }} likes
+                            {% if loop.first %}
+                                <strong> • Latest Post</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>No posts yet. {{ user.full_name }} hasn't posted anything.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Conditional Content -->
+        {% if user.is_verified %}
+            <section style="background: #d4edda; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                <h4 style="color: #155724;">Verified User Benefits</h4>
+                <p style="color: #155724; margin: 0;">This user has access to premium features and verified badge.</p>
+            </section>
+        {% endif %}
+
+        <!-- Dynamic Content Based on Username -->
+        {% set username_lower = user.username|lower %}
+        {% if username_lower == 'admin' %}
+            <section style="background: #f8d7da; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                <h4 style="color: #721c24;">Administrator Account</h4>
+                <p style="color: #721c24; margin: 0;">This user has administrative privileges.</p>
+            </section>
+        {% elif username_lower in ['john', 'jane'] %}
+            <section style="background: #d1ecf1; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                <h4 style="color: #0c5460;">Special User</h4>
+                <p style="color: #0c5460; margin: 0;">Welcome back, {{ user.full_name.split()[0] }}! Great to see you again.</p>
+            </section>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Template Variables Demo -->
+<div class="template-demo">
+    <h3>Jinja2 Template Features Demo</h3>
+    <p><strong>Current page:</strong> {{ page_title }}</p>
+    <p><strong>Username length:</strong> {{ user.username|length }} characters</p>
+    <p><strong>Username uppercase:</strong> {{ user.username|upper }}</p>
+    <p><strong>Skills count:</strong> {{ user.skills|length }}</p>
+    <p><strong>First skill:</strong> {{ user.skills[0] if user.skills else 'No skills' }}</p>
+    <p><strong>Is verified?</strong> {{ 'Yes' if user.is_verified else 'No' }}</p>
+    <p><strong>Loop example:</strong>
+        {% for skill in user.skills[:3] %}
+            {{ skill }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+        {% if user.skills|length > 3 %}... and {{ user.skills|length - 3 }} more{% endif %}
+    </p>
+</div>
+{% endblock %}
+
+{% block footer_content %}
+<div class="footer-content">
+    <div class="footer-section">
+        <h4>Profile Demo</h4>
+        <p>This page demonstrates Jinja2 templating with dynamic content for user: <strong>{{ user.username }}</strong></p>
+    </div>
+    <div class="footer-section">
+        <h4>Try Different Users</h4>
+        <ul>
+            <li><a href="/profile/admin">Admin Profile</a></li>
+            <li><a href="/profile/john">John's Profile</a></li>
+            <li><a href="/profile/jane">Jane's Profile</a></li>
+            <li><a href="/profile/demo">Demo Profile</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h4>Jinja2 Features Used</h4>
+        <ul>
+            <li>Template Inheritance</li>
+            <li>Variables: {{ "{{ variable }}" }}</li>
+            <li>Filters: {{ "{{ variable|filter }}" }}</li>
+            <li>Conditionals: {{ "{% if %}" }}</li>
+            <li>Loops: {{ "{% for %}" }}</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_text %}User profile for {{ user.full_name }}.{% endblock %}
