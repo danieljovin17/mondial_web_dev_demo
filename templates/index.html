@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="brand">
+                    <h1>FastAPI Boilerplate</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/health">Health</a></li>
+                    <li><a href="/docs">API Docs</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Body Section -->
+    <main class="main-content">
+        <div class="container">
+            <section class="hero">
+                <h2>Welcome to FastAPI with Jinja2</h2>
+                <p class="lead">A modern, fast web framework for building APIs with Python 3.8+ based on standard Python type hints.</p>
+                <div class="features">
+                    <div class="feature">
+                        <h3>🚀 Fast</h3>
+                        <p>Very high performance, on par with NodeJS and Go</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🐍 Python</h3>
+                        <p>Built with modern Python features and type hints</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📝 Auto Docs</h3>
+                        <p>Automatic interactive API documentation</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content">
+                <h3>Getting Started</h3>
+                <p>This boilerplate includes:</p>
+                <ul>
+                    <li>FastAPI framework setup</li>
+                    <li>Jinja2 templating engine</li>
+                    <li>Static file serving</li>
+                    <li>uv package management</li>
+                    <li>Basic CSS styling</li>
+                    <li>Health check endpoint</li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>FastAPI Boilerplate</h4>
+                    <p>Built with FastAPI, uv, and Jinja2</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="https://fastapi.tiangolo.com/">FastAPI Docs</a></li>
+                        <li><a href="https://jinja.palletsprojects.com/">Jinja2 Docs</a></li>
+                        <li><a href="https://github.com/astral-sh/uv">uv Package Manager</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>API</h4>
+                    <ul>
+                        <li><a href="/docs">Interactive Docs</a></li>
+                        <li><a href="/redoc">ReDoc</a></li>
+                        <li><a href="/health">Health Check</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FastAPI Boilerplate. Built with ❤️ and Python.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
